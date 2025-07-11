@@ -6,7 +6,9 @@ ROOTFS="$1"
 
 mkdir -p "$ROOTFS" && cd "$ROOTFS" || exit 1
 
-mkdir -p bin dev proc sys tmp etc usr/bin usr/lib usr/lib64 && chmod 1777 tmp || exit 1
+mkdir -p bin dev proc sys tmp etc usr/bin usr/lib usr/lib64 || exit 1
+
+chmod 1777 tmp || exit 1
 
 command -v busybox >/dev/null 2>&1 || { printf "install busybox first...\n" >&2; exit 1; }
 
@@ -34,19 +36,19 @@ cd dev || exit 1
 
 [ ! -e urandom ] && sudo mknod -m 444 urandom c 1 9 || true
 
-mkdir -p "$ROOTFS"/.pivot_root
+cd .. || exit 1
 
-chmod 700 "$ROOTFS"/.pivot_root
+mkdir -p "$ROOTFS/.pivot_root" || exit 1
 
-ls -ld "$ROOTFS"/.pivot_root
+chmod 700 "$ROOTFS/.pivot_root" || exit 1
 
-sudo umount "$ROOTFS"
+ls -ld "$ROOTFS/.pivot_root"
 
-sudo mount /dev/sdb1 "$ROOTFS"
+sudo umount "$ROOTFS" 2>/dev/null || true
+
+sudo mount /dev/sdb1 "$ROOTFS" || exit 1
 
 mount | grep "$ROOTFS"
-
-cd .. || exit 1
 
 printf "minimal rootfs prepared at $ROOTFS\n"
 
