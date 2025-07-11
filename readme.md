@@ -42,7 +42,7 @@ You can use the included `mkroot.sh` script to quickly create a minimal root fil
 ## Building
 
 ```
-./mkrootfs newroot
+./mkroot.sh newroot
 make
 make install
 make strip
