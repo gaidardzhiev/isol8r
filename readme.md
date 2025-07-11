@@ -1,4 +1,4 @@
-# Isol8r — Lightweight Linux Namespace Jail
+# Lightweight Linux Namespace Jail
 
 Isol8r is a minimal Linux namespace jail that creates isolated environments for running processes securely. It leverages Linux kernel namespaces, user and group ID mappings, pivot_root, capability dropping, and seccomp filtering to provide strong process isolation similar to lightweight containers.
 
