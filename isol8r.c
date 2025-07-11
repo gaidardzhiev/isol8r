@@ -18,6 +18,8 @@
 #include <linux/seccomp.h>
 #include <sys/syscall.h>
 #include <linux/limits.h>
+#include <grp.h>
+#include <sys/sysmacros.h> 
 
 #define	A (1024*1024)
 #define	B "newroot"
