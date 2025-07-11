@@ -34,6 +34,18 @@ cd dev || exit 1
 
 [ ! -e urandom ] && sudo mknod -m 444 urandom c 1 9 || true
 
+mkdir -p "$ROOTFS"/.pivot_root
+
+chmod 700 "$ROOTFS"/.pivot_root
+
+ls -ld "$ROOTFS"/.pivot_root
+
+sudo umount "$ROOTFS"
+
+sudo mount /dev/sdb1 "$ROOTFS"
+
+mount | grep "$ROOTFS"
+
 cd .. || exit 1
 
 printf "minimal rootfs prepared at $ROOTFS\n"
