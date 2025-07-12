@@ -2,11 +2,7 @@
 
 ROOTFS="$1"
 
-fusage() {
-	[ -z "$ROOTFS" ] && \
-	       	printf "usage: $0 <newroot>\n" && \
-		exit 1
-}
+[ -z "$ROOTFS" ] && printf "usage: $0 <newroot>\n" && exit 1
 
 fprep() {
 	mkdir -p "$ROOTFS" && cd "$ROOTFS" || return 2
@@ -36,3 +32,7 @@ fprep() {
 	printf "minimal rootfs prepared at $ROOTFS\n"
 	printf "check mount /proc /sys /dev (tmpfs) inside the jail\n"
 }
+
+{ fprep; RET=$?; } || exit 1
+
+[ "$RET" -eq 0 ] 2>/dev/null || printf "%s\n" "$RET"
