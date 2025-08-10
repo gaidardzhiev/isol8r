@@ -33,6 +33,6 @@ fprep() {
 	printf "check mount /proc /sys /dev (tmpfs) inside the jail\n"
 }
 
-{ fprep; RET=$?; } || exit 1
+{ fprep; RET="$?"; } || exit 1
 
 [ "$RET" -eq 0 ] 2>/dev/null || printf "%s\n" "$RET"
