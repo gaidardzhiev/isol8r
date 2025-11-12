@@ -1,11 +1,11 @@
 #!/bin/sh
 
-ROOTFS="$1"
+ROOTFS="${1}"
 
-[ -z "$ROOTFS" ] && printf "usage: $0 <newroot>\n" && exit 1
+[ -z "${ROOTFS}" ] && printf "usage: %s <newroot>\n" "${0}" && exit 1
 
 fprep() {
-	mkdir -p "$ROOTFS" && cd "$ROOTFS" || return 2
+	mkdir -p "${ROOTFS}" && cd "${ROOTFS}" || return 2
 	mkdir -p bin dev proc sys tmp etc usr/bin usr/lib usr/lib64 || return 3
 	chmod 1777 tmp || return 4
 	command -v busybox >/dev/null 2>&1 || { printf "install busybox first...\n" >&2; exit 1; }
@@ -23,16 +23,16 @@ fprep() {
 	[ ! -e random ] && sudo mknod -m 444 random c 1 8 || true
 	[ ! -e urandom ] && sudo mknod -m 444 urandom c 1 9 || true
 	cd .. || return 12
-	mkdir -p "$ROOTFS/.pivot_root" || return 13
-	chmod 700 "$ROOTFS/.pivot_root" || return 14
-	ls -ld "$ROOTFS/.pivot_root"
-	sudo umount -l "$ROOTFS" 2>/dev/null || true
-	sudo mount /dev/sdb1 "$ROOTFS" || return 15
-	mount | grep "$ROOTFS"
-	printf "minimal rootfs prepared at $ROOTFS\n"
+	mkdir -p "${ROOTFS}/.pivot_root" || return 13
+	chmod 700 "${ROOTFS}/.pivot_root" || return 14
+	ls -ld "${ROOTFS}/.pivot_root"
+	sudo umount -l "${ROOTFS}" 2>/dev/null || true
+	sudo mount /dev/sdb1 "${ROOTFS}" || return 15
+	mount | grep "${ROOTFS}"
+	printf "minimal rootfs prepared at %s\n" "${ROOTFS}"
 	printf "check mount /proc /sys /dev (tmpfs) inside the jail\n"
 }
 
-{ fprep; RET="$?"; } || exit 1
+{ fprep; RET="${?}"; } || exit 1
 
-[ "$RET" -eq 0 ] 2>/dev/null || printf "%s\n" "$RET"
+[ "${RET}" -eq 0 ] 2>/dev/null || printf "%s\n" "${RET}"
